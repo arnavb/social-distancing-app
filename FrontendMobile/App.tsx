@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   }
 });
 
-interface AppProps {}
+interface AppProps { }
 
 interface AppState {
   alertEnabled: boolean;
