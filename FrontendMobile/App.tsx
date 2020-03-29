@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Switch } from "react-native";
+import Header from "./components/header";
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    marginTop: "15%"
+    backgroundColor: "#fff"
+  },
+  content: {
+    padding: "7.5%"
   }
 });
 
@@ -28,16 +29,19 @@ export default class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <View style={styles.content}>
-        <Text>Enable Distancing Alert</Text>
-        <Switch
-          value={this.state.alertEnabled}
-          onValueChange={() => {
-            this.setState(prevState => ({
-              alertEnabled: !prevState.alertEnabled
-            }));
-          }}
-        ></Switch>
+      <View style={styles.container}>
+        <Header title="Test" />
+        <View style={styles.content}>
+          <Text>Enable Distancing Alert</Text>
+          <Switch
+            value={this.state.alertEnabled}
+            onValueChange={() => {
+              this.setState(prevState => ({
+                alertEnabled: !prevState.alertEnabled
+              }));
+            }}
+          ></Switch>
+        </View>
       </View>
     );
   }
