@@ -12,19 +12,12 @@ import {
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import {
-  archiveOutline,
-  archiveSharp,
-  bookmarkOutline,
-  heartOutline,
-  heartSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
-  trashOutline,
-  trashSharp,
-  warningOutline,
-  warningSharp
+  alertCircleOutline,
+  alertCircleSharp,
+  checkmarkCircleSharp,
+  checkmarkCircleOutline,
+  settingsOutline,
+  settingsSharp
 } from "ionicons/icons";
 import "./Menu.css";
 
@@ -37,45 +30,24 @@ interface AppPage {
   iosIcon: string;
   mdIcon: string;
   title: string;
+  displayTitle: string;
 }
 
-const appPages: AppPage[] = [
+export const appPages: AppPage[] = [
   {
-    title: "Inbox",
-    url: "/Inbox",
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
+    title: "Alert",
+    url: "/Alert",
+    displayTitle: "Crowd Alert",
+    iosIcon: alertCircleOutline,
+    mdIcon: alertCircleSharp
   },
   {
-    title: "Outbox",
-    url: "/Outbox",
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
+    title: "Check",
+    url: "/Check",
+    displayTitle: "Crowd Check",
+    iosIcon: checkmarkCircleOutline,
+    mdIcon: checkmarkCircleSharp
   },
-  {
-    title: "Favorites",
-    url: "/Favorites",
-    iosIcon: heartOutline,
-    mdIcon: heartSharp
-  },
-  {
-    title: "Archived",
-    url: "/Archived",
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp
-  },
-  {
-    title: "Trash",
-    url: "/Trash",
-    iosIcon: trashOutline,
-    mdIcon: trashSharp
-  },
-  {
-    title: "Spam",
-    url: "/Spam",
-    iosIcon: warningOutline,
-    mdIcon: warningSharp
-  }
 ];
 
 const Menu: React.FunctionComponent<MenuProps> = ({ selectedPage }) => {
@@ -95,12 +67,26 @@ const Menu: React.FunctionComponent<MenuProps> = ({ selectedPage }) => {
                   lines="none"
                   detail={false}
                 >
-                  <IonIcon slot="start" icon={appPage.iosIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonLabel>{appPage.displayTitle}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );
           })}
+        </IonList>
+        <IonList>
+          <IonMenuToggle>
+            <IonItem
+              className={selectedPage === "Settings" ? "selected" : ""}
+              routerLink="/Settings"
+              routerDirection="none"
+              lines="none"
+              detail={false}
+            >
+              <IonIcon slot="start" ios={settingsOutline} md={settingsSharp}></IonIcon>
+              <IonLabel>{"Settings"}</IonLabel>
+            </IonItem>
+          </IonMenuToggle>
         </IonList>
       </IonContent>
     </IonMenu>

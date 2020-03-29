@@ -1,5 +1,5 @@
 import Menu from "./components/Menu";
-import Page from "./pages/Page";
+import Master from "./components/Master"
 import React, { useState } from "react";
 import { IonApp, IonRouterOutlet, IonSplitPane } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -37,13 +37,13 @@ const App: React.FC = () => {
               path="/:name"
               render={props => {
                 setSelectedPage(props.match.params.name);
-                return <Page {...props} />;
+                return <Master {...props} />;
               }}
               exact={true}
             />
             <Route
               path="/"
-              render={() => <Redirect to="/Inbox" />}
+              render={() => <Redirect to="/Alert" />}
               exact={true}
             />
           </IonRouterOutlet>
