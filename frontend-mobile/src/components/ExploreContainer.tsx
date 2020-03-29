@@ -1,5 +1,5 @@
 import React from "react";
-import "./ExploreContainer.css";
+import styles from "./ExploreContainer.module.css";
 
 interface ContainerProps {
   name: string;
@@ -7,7 +7,7 @@ interface ContainerProps {
 
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
-    <div className="container">
+    <div className={styles.container}>
       <strong>Error</strong>
       <p>
         Page "{name}" not implemented
