@@ -1,20 +1,48 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, View, Switch } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
+  row: {
+    flex: 1,
+    flexDirection: "row"
+  }
 });
 
+interface AppProps { }
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text></Text>
-    </View>
-  );
+interface AppState {
+  alertEnabled: boolean;
+}
+
+export default class App extends Component<AppProps, AppState> {
+  readonly state = {
+    alertEnabled: false
+  };
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <View style={styles.content}>
+        <Switch
+          value={this.state.alertEnabled}
+          onValueChange={() => {
+            this.setState(prevState => ({
+              alertEnabled: !prevState.alertEnabled
+            }));
+          }}
+        ></Switch>
+        <Text>Enable Distancing Alert</Text>
+      </View>
+    );
+  }
 }
