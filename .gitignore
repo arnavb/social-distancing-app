@@ -216,3 +216,4 @@ dmypy.json
 # Virtual environments
 .venv/
 .vscode/
+env
