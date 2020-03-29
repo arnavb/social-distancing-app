@@ -1,8 +1,8 @@
 import os
 import populartimes
 from dotenv import load_dotenv
-from flask import Flask, jsonify
-
+from flask import Flask, jsonify, request
+import requests
 # Load environment variables
 load_dotenv()
 
@@ -22,7 +22,10 @@ def get_current_popularity():
         return jsonify(current_popularity=current_popularity)
 
     return jsonify(error="NO_LIVE_DATA")
-
-
+@app.route("/nearbyLocations")
+def get_nearby_locations():
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    
 if __name__ == "__main__":
     app.run()
