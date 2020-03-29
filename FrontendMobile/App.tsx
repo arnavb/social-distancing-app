@@ -7,15 +7,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "flex-start"
-  },
-  row: {
-    flex: 1,
-    flexDirection: "row"
+    marginTop: "15%"
   }
 });
 
-interface AppProps { }
+interface AppProps {}
 
 interface AppState {
   alertEnabled: boolean;
@@ -33,6 +29,7 @@ export default class App extends Component<AppProps, AppState> {
   render() {
     return (
       <View style={styles.content}>
+        <Text>Enable Distancing Alert</Text>
         <Switch
           value={this.state.alertEnabled}
           onValueChange={() => {
@@ -41,7 +38,6 @@ export default class App extends Component<AppProps, AppState> {
             }));
           }}
         ></Switch>
-        <Text>Enable Distancing Alert</Text>
       </View>
     );
   }
