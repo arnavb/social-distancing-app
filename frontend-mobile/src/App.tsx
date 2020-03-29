@@ -34,7 +34,7 @@ const App: React.FC = () => {
           <Menu selectedPage={selectedPage} />
           <IonRouterOutlet id="main">
             <Route
-              path="/page/:name"
+              path="/:name"
               render={props => {
                 setSelectedPage(props.match.params.name);
                 return <Page {...props} />;
@@ -43,7 +43,7 @@ const App: React.FC = () => {
             />
             <Route
               path="/"
-              render={() => <Redirect to="/page/Inbox" />}
+              render={() => <Redirect to="/Inbox" />}
               exact={true}
             />
           </IonRouterOutlet>

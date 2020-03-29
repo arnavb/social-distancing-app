@@ -42,51 +42,49 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: "Inbox",
-    url: "/page/Inbox",
+    url: "/Inbox",
     iosIcon: mailOutline,
     mdIcon: mailSharp
   },
   {
     title: "Outbox",
-    url: "/page/Outbox",
+    url: "/Outbox",
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp
   },
   {
     title: "Favorites",
-    url: "/page/Favorites",
+    url: "/Favorites",
     iosIcon: heartOutline,
     mdIcon: heartSharp
   },
   {
     title: "Archived",
-    url: "/page/Archived",
+    url: "/Archived",
     iosIcon: archiveOutline,
     mdIcon: archiveSharp
   },
   {
     title: "Trash",
-    url: "/page/Trash",
+    url: "/Trash",
     iosIcon: trashOutline,
     mdIcon: trashSharp
   },
   {
     title: "Spam",
-    url: "/page/Spam",
+    url: "/Spam",
     iosIcon: warningOutline,
     mdIcon: warningSharp
   }
 ];
-
-const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
 
 const Menu: React.FunctionComponent<MenuProps> = ({ selectedPage }) => {
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
+          <IonListHeader>Social Distancing</IonListHeader>
+          <IonNote></IonNote>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
@@ -103,16 +101,6 @@ const Menu: React.FunctionComponent<MenuProps> = ({ selectedPage }) => {
               </IonMenuToggle>
             );
           })}
-        </IonList>
-
-        <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
-          {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
         </IonList>
       </IonContent>
     </IonMenu>
