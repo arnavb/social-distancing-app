@@ -1,7 +1,0 @@
-{
-  "name": "frontend-mobile",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
