@@ -78,7 +78,7 @@ def get_nearby_locations():
         address = " ".join(venue["location"]["formattedAddress"])
         result.append({"name": name, "address": address})
 
-    return jsonify(response.json())
+    return jsonify(result)
 
 
 if __name__ == "__main__":
