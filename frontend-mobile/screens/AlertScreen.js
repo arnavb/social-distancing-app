@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { RectButton, ScrollView, Switch } from 'react-native-gesture-handler';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as TaskManager from 'expo-task-manager';
+import { Notifications } from 'expo';
 
 export default function AlertScreen() {
   const [alertEnabled, setAlertEnabled] = React.useState(false);
@@ -15,16 +15,11 @@ export default function AlertScreen() {
       <EnableSwitch getEnabled={() => alertEnabled} setEnabled={ns => setAlertEnabled(ns)} />
 
       <LocationDisplay getAlertEnabled={() => alertEnabled} />
-
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Do something even more else"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
     </ScrollView>
   );
 }
+
+const API_URL = "http://sd-1000.appspot.com/"
 
 function LocationDisplay({ getAlertEnabled }) {
   const [location, setLocation] = React.useState({ lat: "Enable Alert to see location", lng: "" });
@@ -52,13 +47,17 @@ function LocationDisplay({ getAlertEnabled }) {
       }
     }
   });
-
-
   return (
-    <View sytle={{ ...styles.option, flexDirection: 'row' }}>
-      <Text>Current Location: </Text>
-      <Text>{location?.lat}{location ? " " : ""}{location?.lng}</Text>
-    </View>
+    <RectButton style={styles.option}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={styles.optionIconContainer}>
+          <MaterialIcons name={"my-location"} size={22} color="rgba(0,0,0,0.35)" />
+        </View>
+        <View style={styles.optionTextContainer}>
+          <Text style={styles.optionText}>Current Location: {location?.lat}{location ? " " : ""}{location?.lng}</Text>
+        </View>
+      </View>
+    </RectButton>
   );
 }
 
@@ -70,7 +69,7 @@ function EnableSwitch({ getEnabled, setEnabled }) {
           <Switch value={getEnabled()} onValueChange={e => setEnabled(e)}></Switch>
         </View>
         <View style={styles.optionTextContainer}>
-          <Text>Enable Alert</Text>
+          <Text style={styles.optionText}>Enable Alert</Text>
         </View>
       </View>
     </View>
@@ -92,6 +91,9 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
   );
 }
 
+var prevCrowd = 500000;
+var currCrowd = 500000;
+
 TaskManager.defineTask("location", ({ data: { locations }, error }) => {
   if (error) {
     return;
@@ -100,6 +102,19 @@ TaskManager.defineTask("location", ({ data: { locations }, error }) => {
     window.setLocation({
       lat: locations.reverse()[0]?.coords.latitude,
       lng: locations.reverse()[0]?.coords.longitude,
+    });
+    fetch(API_URL + "area-popularity/?lat=" + locations.reverse()[0]?.coords.latitude + "&lng=" + locations.reverse()[0]?.coords.longitude).then(res => res.json()).then(res => {
+      let crowd = res.map(a => a.current_popularity ? Number(a.current_popularity) : (a.expected_popularity ? Number(a.expected_popularity) : 0)).reduce((a, b) => a + b);
+      prevCrowd = currCrowd;
+      currCrowd = prevCrowd;
+      return currCrowd / prevCrowd;
+    }).then(ratio => {
+      if (ratio >= 1.2) {
+        Notifications.presentLocalNotificationAsync({
+          title: "Crowd Alert!",
+          body: "There has been a significant increase in the crowd in your area",
+        });
+      }
     });
   }
   catch (e) {
@@ -133,5 +148,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
     marginTop: 1,
-  },
+  }
 });
