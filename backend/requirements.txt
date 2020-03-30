@@ -1,4 +1,3 @@
 Flask
 git+https://github.com/m-wrzr/populartimes@master
 python-dotenv
-requests
