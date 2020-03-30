@@ -106,7 +106,7 @@ TaskManager.defineTask("location", ({ data: { locations }, error }) => {
     fetch(API_URL + "area-popularity/?lat=" + locations.reverse()[0]?.coords.latitude + "&lng=" + locations.reverse()[0]?.coords.longitude).then(res => res.json()).then(res => {
       let crowd = res.map(a => a.current_popularity ? Number(a.current_popularity) : (a.expected_popularity ? Number(a.expected_popularity) : 0)).reduce((a, b) => a + b);
       prevCrowd = currCrowd;
-      currCrowd = prevCrowd;
+      currCrowd = crowd;
       return currCrowd / prevCrowd;
     }).then(ratio => {
       if (ratio >= 1.2) {
