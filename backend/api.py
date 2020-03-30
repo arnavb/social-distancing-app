@@ -47,7 +47,7 @@ def add_amount_to_coords(lat: float, lon: float, amount: int):
 
 
 @app.route("/area-popularity")
-def get_popularity_in_area():
+def get_area_popularity():
     lat = float(request.args["lat"])
     lon = float(request.args["lon"])
 
