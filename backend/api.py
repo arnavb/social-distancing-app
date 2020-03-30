@@ -19,14 +19,24 @@ def get_current_popularity():
     """Get the current popularity, if it exists, for the location passed
     as a parameter"""
 
-    json_data = populartimes.get_id(
-        os.environ["GMAPS_PLACES_API_KEY"], "ChIJc_bAtSDIw4kRnfrNZxYHK_M"
-    )
-    if "current_popularity" in json_data:
-        current_popularity = json_data["current_popularity"]
+    place_id = request.args["place_id"]
+
+    location_info = populartimes.get_id(os.environ["GMAPS_PLACES_API_KEY"], place_id)
+
+    if "current_popularity" in location_info:
+        current_popularity = location_info["current_popularity"]
         return jsonify(current_popularity=current_popularity)
 
-    return jsonify(error="NO_LIVE_DATA")
+    day_of_week = datetime.strftime(datetime.now(), "%A")
+    hour_of_day = int(datetime.strftime(datetime.now(), "%H"))
+
+    expected_popularity = 0
+    for day in location_info["populartimes"]:
+        if day_of_week.lower() == day["name"].lower():
+            expected_popularity = day["data"][hour_of_day]
+            break
+
+    return jsonify(expected_popularity=expected_popularity)
 
 
 def add_amount_to_coords(lat: float, lon: float, amount: int):
@@ -41,7 +51,6 @@ def get_popularity_in_area():
     lat = float(request.args["lat"])
     lon = float(request.args["lon"])
 
-    api_key = os.environ["GMAPS_PLACES_API_KEY"]
     bottom_left = add_amount_to_coords(lat, lon, -500)
     top_right = add_amount_to_coords(lat, lon, 500)
 
