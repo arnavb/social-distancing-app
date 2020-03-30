@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from math import cos, pi
 
 import populartimes
 import requests
@@ -28,55 +29,41 @@ def get_current_popularity():
     return jsonify(error="NO_LIVE_DATA")
 
 
-# @app.route("/currentPopularity")
-# def current_popularity_apify():
-#     apify_api_key = os.environ["APIFY_API_KEY"]
-#     request_body = {
-#         "lat": "40.5300041",
-#         "lng": "-74.378022",
-#         "includeHistogram": True,
-#         "includeReviews": False,
-#         "includeImages": False,
-#         "includeOpeningHours": False,
-#         "includePeopleAlsoSearch": False,
-#     }
-#     response: Response = requests.post(
-#         "https://api.apify.com/v2/acts/drobnikj~crawler-google-places/runs",
-#         params=dict(token=apify_api_key),
-#         data=request_body,
-#     )
-#     response.raise_for_status()
-#
-#     return jsonify(response.json())
+def add_amount_to_coords(lat: float, lon: float, amount: int):
+    new_lat = lat + amount / 1000 / 111.11
+    new_lon = lon + amount / 1000 / 111.11
+
+    return new_lat, new_lon
 
 
-@app.route("/nearby-locations")
-def get_nearby_locations():
-    lat = request.args.get("lat")
-    lon = request.args.get("lon")
+@app.route("/area-popularity")
+def get_popularity_in_area():
+    lat = float(request.args["lat"])
+    lon = float(request.args["lon"])
 
-    client_id = os.environ["FOURSQUARE_CLIENT_ID"]
-    client_secret = os.environ["FOURSQUARE_CLIENT_SECRET"]
+    api_key = os.environ["GMAPS_PLACES_API_KEY"]
+    bottom_left = add_amount_to_coords(lat, lon, -500)
+    top_right = add_amount_to_coords(lat, lon, 500)
 
-    request_params = {
-        "client_id": client_id,
-        "client_secret": client_secret,
-        "ll": f"{lat},{lon}",
-        "radius": "1000",
-        "v": datetime.today().strftime("%Y%m%d"),
-    }
-    response: Response = requests.get(
-        "https://api.foursquare.com/v2/venues/search", params=request_params
+    locations = populartimes.get(
+        os.environ["GMAPS_PLACES_API_KEY"], ["restant"], bottom_left, top_right,
     )
 
-    response.raise_for_status()
-    response_venues = response.json()["response"]["venues"]
     result = []
+    for location in locations:
+        current_location = {"name": location["name"]}
+        if "current_popularity" in location:
+            current_location["current_popularity"] = location["current_popularity"]
+        else:
+            day_of_week = datetime.strftime(datetime.now(), "%A")
+            hour_of_day = int(datetime.strftime(datetime.now(), "%H"))
 
-    for venue in response_venues:
-        name = venue["name"]
-        address = " ".join(venue["location"]["formattedAddress"])
-        result.append({"name": name, "address": address})
+            for day in location["populartimes"]:
+                if day_of_week.lower() == day["name"].lower():
+                    current_location["expected_popularity"] = day["data"][hour_of_day]
+                    break
+
+        result.append(current_location)
 
     return jsonify(result)
 
