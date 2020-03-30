@@ -37,19 +37,19 @@ def get_current_popularity():
     return jsonify(expected_popularity=expected_popularity)
 
 
-def add_amount_to_coords(lat: float, lon: float, amount: float) -> Tuple[float, float]:
+def add_amount_to_coords(lat: float, lng: float, amount: float) -> Tuple[float, float]:
     """Add a specified distance to the coordinates passed in as input
 
     :param lat: The latitude of the coordinate
-    :param lon: The longitude of the coordinate
+    :param lng: The longitude of the coordinate
     :param amount: The distance, in meters to increase the coordinates by
     :returns: The coordinates with the distance added as a tuple
     """
 
     new_lat = lat + amount / 1000 / 111.11
-    new_lon = lon + amount / 1000 / 111.11
+    new_lng = lng + amount / 1000 / 111.11
 
-    return new_lat, new_lon
+    return new_lat, new_lng
 
 
 @app.route("/area-popularity")
@@ -58,10 +58,10 @@ def get_area_popularity():
     passed in the query string parameters"""
 
     lat = request.args.get("lat", type=float)
-    lon = request.args.get("lon", type=float)
+    lng = request.args.get("lng", type=float)
 
-    bottom_left = add_amount_to_coords(lat, lon, -500)
-    top_right = add_amount_to_coords(lat, lon, 500)
+    bottom_left = add_amount_to_coords(lat, lng, -500)
+    top_right = add_amount_to_coords(lat, lng, 500)
 
     locations = populartimes.get(
         os.environ["GMAPS_PLACES_API_KEY"], ["restant"], bottom_left, top_right,

@@ -64,9 +64,15 @@ function LocationDisplay({ getAlertEnabled }) {
 
 function EnableSwitch({ getEnabled, setEnabled }) {
   return (
-    <View style={{ ...styles.option, flexDirection: 'row' }}>
-      <Switch value={getEnabled()} onValueChange={e => setEnabled(e)}></Switch>
-      <Text>Enable Alert</Text>
+    <View style={styles.option}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={styles.optionIconContainer}>
+          <Switch value={getEnabled()} onValueChange={e => setEnabled(e)}></Switch>
+        </View>
+        <View style={styles.optionTextContainer}>
+          <Text>Enable Alert</Text>
+        </View>
+      </View>
     </View>
   );
 }
