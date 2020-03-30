@@ -1,12 +1,10 @@
 import os
 from datetime import datetime
-from math import cos, pi
+from typing import Tuple
 
 import populartimes
-import requests
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
-from requests import Response
 
 # Load environment variables
 load_dotenv()
@@ -17,7 +15,7 @@ app = Flask(__name__)
 @app.route("/current-popularity")
 def get_current_popularity():
     """Get the current popularity, if it exists, for the location passed
-    as a parameter"""
+    in the query string parameters"""
 
     place_id = request.args["place_id"]
 
@@ -39,7 +37,14 @@ def get_current_popularity():
     return jsonify(expected_popularity=expected_popularity)
 
 
-def add_amount_to_coords(lat: float, lon: float, amount: int):
+def add_amount_to_coords(lat: float, lon: float, amount: float) -> Tuple[float, float]:
+    """Add a specified distance to the coordinates passed in as input
+
+    :param lat: The latitude of the coordinate
+    :param lon: The longitude of the coordinate
+    :param amount: The distance, in meters to increase the coordinates by
+    :returns: The coordinates with the distance added as a tuple
+    """
     new_lat = lat + amount / 1000 / 111.11
     new_lon = lon + amount / 1000 / 111.11
 
@@ -48,6 +53,9 @@ def add_amount_to_coords(lat: float, lon: float, amount: int):
 
 @app.route("/area-popularity")
 def get_area_popularity():
+    """Get the popularity of all locations within a 500 meter square from the location
+    passed in the query string parameters"""
+
     lat = float(request.args["lat"])
     lon = float(request.args["lon"])
 
