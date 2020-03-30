@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import AlertScreen from '../screens/AlertScreen';
+import * as React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TabBarIcon from "../components/TabBarIcon";
+import HomeScreen from "../screens/HomeScreen";
+import LinksScreen from "../screens/LinksScreen";
+import AlertScreen from "../screens/AlertScreen";
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Alert';
+const INITIAL_ROUTE_NAME = "Alert";
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -20,8 +20,10 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Alert"
         component={AlertScreen}
         options={{
-          title: 'Alert',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-alert" />,
+          title: "Alert",
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name="md-alert" />
+          )
         }}
       />
       {/* <BottomTab.Screen
@@ -37,12 +39,13 @@ export default function BottomTabNavigator({ navigation, route }) {
 }
 
 function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+  const routeName =
+    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case 'Alert':
-      return 'Configure Crowd Alerts';
-    case 'Links':
-      return 'Links to learn more';
+    case "Alert":
+      return "Configure Crowd Alerts";
+    case "Links":
+      return "Links to learn more";
   }
 }
