@@ -10,6 +10,9 @@ from flask import Flask, jsonify, request
 load_dotenv()
 
 app = Flask(__name__)
+@app.route("/")
+def main():
+    return "Welcome to Social Distancing App"
 
 
 @app.route("/current-popularity")
@@ -37,7 +40,7 @@ def get_current_popularity():
     return jsonify(expected_popularity=expected_popularity)
 
 
-def add_amount_to_coords(lat: float, lng: float, amount: float) -> Tuple[float, float]:
+def add_amount_to_coords(lat, lng, amount):
     """Add a specified distance to the coordinates passed in as input
 
     :param lat: The latitude of the coordinate
@@ -60,6 +63,9 @@ def get_area_popularity():
     lat = request.args.get("lat", type=float)
     lng = request.args.get("lng", type=float)
 
+    print(lat)
+    print(lng)
+
     bottom_left = add_amount_to_coords(lat, lng, -500)
     top_right = add_amount_to_coords(lat, lng, 500)
 
@@ -67,6 +73,7 @@ def get_area_popularity():
         os.environ["GMAPS_PLACES_API_KEY"], ["restant"], bottom_left, top_right,
     )
 
+    print(locations)
     result = []
     for location in locations:
         current_location = {"name": location["name"], "place_id": location["id"]}

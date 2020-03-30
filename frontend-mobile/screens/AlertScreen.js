@@ -145,7 +145,7 @@ TaskManager.defineTask("location", ({ data: { locations }, error }) => {
           )
           .reduce((a, b) => a + b);
         prevCrowd = currCrowd;
-        currCrowd = prevCrowd;
+        currCrowd = crowd;
         return currCrowd / prevCrowd;
       })
       .then(ratio => {

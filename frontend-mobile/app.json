@@ -6,10 +6,13 @@
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
-    "version": "0.0.1",
+    "android": {
+      "package": "com.distancing.social",
+      "versionCode": 1
+    },
+    "version": "0.5.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -25,7 +28,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.distancing.social",
+      "buildNumber": "1.0.0"
     }
   }
 }
