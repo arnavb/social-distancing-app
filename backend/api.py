@@ -69,7 +69,7 @@ def get_area_popularity():
 
     result = []
     for location in locations:
-        current_location = {"name": location["name"]}
+        current_location = {"name": location["name"], "place_id": location["id"]}
         if "current_popularity" in location:
             current_location["current_popularity"] = location["current_popularity"]
         else:
