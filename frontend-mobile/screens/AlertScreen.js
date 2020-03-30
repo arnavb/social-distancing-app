@@ -19,7 +19,7 @@ export default function AlertScreen() {
   );
 }
 
-const api_url = "sometheint.com/"
+const API_URL = "sometheint.com/"
 
 function LocationDisplay({ getAlertEnabled }) {
   const [location, setLocation] = React.useState({ lat: "Enable Alert to see location", lng: "" });
@@ -103,7 +103,7 @@ TaskManager.defineTask("location", ({ data: { locations }, error }) => {
       lat: locations.reverse()[0]?.coords.latitude,
       lng: locations.reverse()[0]?.coords.longitude,
     });
-    fetch(api_url + "area-popularity/?lat=" + locations.reverse()[0]?.coords.latitude + "&lng=" + locations.reverse()[0]?.coords.longitude).then(res => res.json()).then(res => {
+    fetch(API_URL + "area-popularity/?lat=" + locations.reverse()[0]?.coords.latitude + "&lng=" + locations.reverse()[0]?.coords.longitude).then(res => res.json()).then(res => {
       let crowd = res.map(a => a.current_popularity ? Number(a.current_popularity) : (a.expected_popularity ? Number(a.expected_popularity) : 0)).reduce((a, b) => a + b);
       prevCrowd = currCrowd;
       currCrowd = prevCrowd;
