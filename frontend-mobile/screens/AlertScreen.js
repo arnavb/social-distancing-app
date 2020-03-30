@@ -19,7 +19,7 @@ export default function AlertScreen() {
   );
 }
 
-const API_URL = "sometheint.com/"
+const API_URL = "http://sd-1000.appspot.com/"
 
 function LocationDisplay({ getAlertEnabled }) {
   const [location, setLocation] = React.useState({ lat: "Enable Alert to see location", lng: "" });
