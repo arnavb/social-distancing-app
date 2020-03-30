@@ -17,7 +17,7 @@ def get_current_popularity():
     """Get the current popularity, if it exists, for the location passed
     in the query string parameters"""
 
-    place_id = request.args["place_id"]
+    place_id = request.args.get("place_id")
 
     location_info = populartimes.get_id(os.environ["GMAPS_PLACES_API_KEY"], place_id)
 
@@ -45,6 +45,7 @@ def add_amount_to_coords(lat: float, lon: float, amount: float) -> Tuple[float, 
     :param amount: The distance, in meters to increase the coordinates by
     :returns: The coordinates with the distance added as a tuple
     """
+
     new_lat = lat + amount / 1000 / 111.11
     new_lon = lon + amount / 1000 / 111.11
 
@@ -56,8 +57,8 @@ def get_area_popularity():
     """Get the popularity of all locations within a 500 meter square from the location
     passed in the query string parameters"""
 
-    lat = float(request.args["lat"])
-    lon = float(request.args["lon"])
+    lat = request.args.get("lat", type=float)
+    lon = request.args.get("lon", type=float)
 
     bottom_left = add_amount_to_coords(lat, lon, -500)
     top_right = add_amount_to_coords(lat, lon, 500)
