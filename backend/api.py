@@ -10,9 +10,11 @@ from flask import Flask, jsonify, request
 load_dotenv()
 
 app = Flask(__name__)
+
+
 @app.route("/")
 def main():
-    return "Welcome to Social Distancing App"
+    return "Welcome to the Social Distancing App"
 
 
 @app.route("/current-popularity")
