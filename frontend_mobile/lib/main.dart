@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_mobile/home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(appBar: AppBar(title: Text("Social Distancing App"))),
+      home: HomePage()
     );
   }
 }
+
+
