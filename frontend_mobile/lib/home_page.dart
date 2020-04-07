@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,8 +6,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Position _currentPosition;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +16,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (_currentPosition != null)
+            if (true)
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("${_currentPosition.latitude}, ${_currentPosition.longitude}"),
+                child: Text("SHM"),
               ),
             RaisedButton(
               child: Text("Get User Location"),
@@ -35,17 +32,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
   }
 }
 
