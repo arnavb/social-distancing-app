@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(_currentLat == null || _currentLng == null
-                      ? "Unkown"
+                      ? "Unknown"
                       : "${_currentLat} ${_currentLng}"))
             ],
           ),
