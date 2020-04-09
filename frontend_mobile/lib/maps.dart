@@ -24,6 +24,7 @@ class _MapState extends State<Map> {
               title: Text('Your Location'),
             ),
             body: GoogleMap(
+              myLocationEnabled: true,
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
                 target: _center,
