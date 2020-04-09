@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class CreateMap extends StatefulWidget {
+class Map extends StatefulWidget {
   @override
-  _CreateMapState createState() => _CreateMapState();
+  _MapState createState() => _MapState();
 }
 
-class _CreateMapState extends State<CreateMap> {
+class _MapState extends State<Map> {
   GoogleMapController mapController;
 
   final LatLng _center =
@@ -22,7 +22,6 @@ class _CreateMapState extends State<CreateMap> {
         home: Scaffold(
             appBar: AppBar(
               title: Text('Your Location'),
-              backgroundColor: Colors.blue[300],
             ),
             body: GoogleMap(
               onMapCreated: _onMapCreated,

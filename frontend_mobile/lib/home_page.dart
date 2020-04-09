@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocation/geolocation.dart';
+import 'package:frontend_mobile/maps.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text("Social Distancing App"),
         ),
         body: Center(
           child: Column(
@@ -54,8 +55,12 @@ class _HomePageState extends State<HomePage> {
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(_currentLat == null || _currentLng == null
-                      ? "Unknown"
-                      : "${_currentLat} ${_currentLng}"))
+                      ? "Your Location: Uh oh, big boomers!"
+                      : "Location: ${_currentLat} ${_currentLng}")),
+              FlatButton(
+                  onPressed: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Map())),
+                  child: Text("Show Map"))
             ],
           ),
         ));
