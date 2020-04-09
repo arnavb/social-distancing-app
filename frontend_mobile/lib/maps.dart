@@ -29,18 +29,17 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('Your Location'),
-            ),
-            body: GoogleMap(
-              myLocationEnabled: true,
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-            )));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Your Location'),
+        ),
+        body: GoogleMap(
+          myLocationEnabled: true,
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ));
   }
 }
