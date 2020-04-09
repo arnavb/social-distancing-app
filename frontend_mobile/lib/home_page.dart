@@ -10,12 +10,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   StreamSubscription<LocationResult> _locationSubscription;
-  String _currentLocation = "Unknown";
+  double _currentLat;
+  double _currentLng;
+  bool _backgroundEnabled = false;
 
   @override
   void dispose() {
     super.dispose();
-    _locationSubscription.cancel();
+    if (!_backgroundEnabled) _locationSubscription.cancel();
   }
 
   @override
@@ -23,11 +25,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _locationSubscription = Geolocation.locationUpdates(
-            accuracy: LocationAccuracy.best, inBackground: true)
+            accuracy: LocationAccuracy.block,
+            displacementFilter: 20.0,
+            inBackground: true)
         .listen((result) {
       setState(() {
-        _currentLocation =
-            "${result.location.latitude}, ${result.location.latitude}";
+        _currentLat = result.location.latitude;
+        _currentLng = result.location.longitude;
       });
     });
   }
@@ -42,18 +46,18 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (true)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("SHM"),
-                ),
-              RaisedButton(
-                  child: Text("Get User Location"),
-                  onPressed: _getCurrentLocation)
+              Switch(
+                value: _backgroundEnabled,
+                onChanged: (bool newVal) =>
+                    setState(() => _backgroundEnabled = newVal),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(_currentLat == null || _currentLng == null
+                      ? "Unkown"
+                      : "${_currentLat} ${_currentLng}"))
             ],
           ),
         ));
   }
-
-  void _getCurrentLocation() {}
 }
