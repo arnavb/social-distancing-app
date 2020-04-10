@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocation/geolocation.dart';
-import 'package:frontend_mobile/maps.dart';
 
 class HomePage extends StatefulWidget {
   @override
