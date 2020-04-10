@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class LocationModel extends ChangeNotifier {
   double _latitude;
@@ -117,14 +118,26 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     return Consumer<LocationModel>(builder: (context, location, child) {
       return location.location != null
-          ? GoogleMap(
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: location.location,
-                zoom: 15.0,
+          ? SlidingUpPanel(
+              body: GoogleMap(
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: location.location,
+                  zoom: 15.0,
+                ),
               ),
+              panel: Center(
+                child: Text(
+                  "This is the Widget behind the sliding panel",
+                ),
+              ),
+              backdropEnabled: true,
+              color: Colors.black,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0)),
             )
           : Center(child: CircularProgressIndicator());
     });
