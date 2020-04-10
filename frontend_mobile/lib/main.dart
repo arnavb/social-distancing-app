@@ -116,15 +116,17 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationModel>(builder: (context, location, child) {
-      return GoogleMap(
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: location.location,
-          zoom: 15.0,
-        ),
-      );
+      return location.location != null
+          ? GoogleMap(
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: location.location,
+                zoom: 15.0,
+              ),
+            )
+          : Center(child: CircularProgressIndicator());
     });
     // return widget.getCoords().latitude != null
     //     ? Text("${widget.getCoords().latitude} ${widget.getCoords().longitude}")
