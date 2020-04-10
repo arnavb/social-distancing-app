@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:floating_search_bar/floating_search_bar.dart';
 
 class LocationModel extends ChangeNotifier {
   double _latitude;
@@ -119,7 +120,7 @@ class _MapState extends State<Map> {
       return location.location != null
           ? GoogleMap(
               myLocationEnabled: true,
-              myLocationButtonEnabled: true,
+              myLocationButtonEnabled: false,
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
                 target: location.location,
