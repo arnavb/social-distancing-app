@@ -5,6 +5,8 @@ import 'package:geolocation/geolocation.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:floating_search_bar/floating_search_bar.dart';
+
 
 class LocationModel extends ChangeNotifier {
   double _latitude;
@@ -121,7 +123,7 @@ class _MapState extends State<Map> {
           ? SlidingUpPanel(
               body: GoogleMap(
                 myLocationEnabled: true,
-                myLocationButtonEnabled: true,
+                myLocationButtonEnabled: false,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: location.location,
