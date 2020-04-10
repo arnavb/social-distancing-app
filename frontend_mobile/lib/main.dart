@@ -14,13 +14,13 @@ class LocationModel extends ChangeNotifier {
 
   LatLng get location => LatLng(_latitude, _longitude);
 
-  void set locationObj(LatLng newLoc) {
+  set locationObj(LatLng newLoc) {
     _latitude = newLoc.latitude;
     _longitude = newLoc.longitude;
     notifyListeners();
   }
 
-  void set locationList(List<double> newLoc) {
+  set locationList(List<double> newLoc) {
     _latitude = newLoc[0];
     _longitude = newLoc[1];
     notifyListeners();
@@ -128,16 +128,5 @@ class _MapState extends State<Map> {
             )
           : Center(child: CircularProgressIndicator());
     });
-    // return widget.getCoords().latitude != null
-    //     ? Text("${widget.getCoords().latitude} ${widget.getCoords().longitude}")
-    //     /*GoogleMap(
-    //         myLocationEnabled: true,
-    //         onMapCreated: _onMapCreated,
-    //         initialCameraPosition: CameraPosition(
-    //           target: widget.getCoords(),
-    //           zoom: 11.0,
-    //         ),
-    //       )*/
-    //     : Container();
   }
 }
