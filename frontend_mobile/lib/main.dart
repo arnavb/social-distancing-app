@@ -2,8 +2,36 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocation/geolocation.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(AppContainer());
+class LocationModel extends ChangeNotifier {
+  double _latitude;
+  double _longitude;
+
+  double get latitude => _latitude;
+  double get longitude => _longitude;
+
+  LatLng get location => LatLng(_latitude, _longitude);
+
+  void set locationObj(LatLng newLoc) {
+    _latitude = newLoc.latitude;
+    _longitude = newLoc.longitude;
+    notifyListeners();
+  }
+
+  void set locationList(List<double> newLoc) {
+    _latitude = newLoc[0];
+    _longitude = newLoc[1];
+    notifyListeners();
+  }
+}
+
+void main() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => LocationModel(),
+      )
+    ], child: AppContainer()));
 
 class AppContainer extends StatelessWidget {
   // This widget is the root of your application.
@@ -24,9 +52,6 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   StreamSubscription<LocationResult> _locationSubscription;
-  double _currentLat;
-  double _currentLng;
-
   bool _backgroundEnabled = false;
 
   @override
@@ -40,51 +65,77 @@ class _AppState extends State<App> {
     super.initState();
 
     _locationSubscription = Geolocation.locationUpdates(
-            accuracy: LocationAccuracy.block,
-            displacementFilter: 20.0,
+            accuracy: LocationAccuracy.best,
+            displacementFilter: 0.0,
             inBackground: true)
         .listen((result) {
-      setState(() {
-        _currentLat = result.location.latitude;
-        _currentLng = result.location.longitude;
-      });
+      Provider.of<LocationModel>(context, listen: false).locationList = [
+        result.location.latitude,
+        result.location.longitude
+      ];
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Social Distancing")),
-        body: Map(getCoords: () => LatLng(_currentLat, _currentLng)));
+        appBar: AppBar(title: Text("Social Distancing")), body: Map());
   }
 }
 
 class Map extends StatefulWidget {
-  LatLng Function() getCoords;
-  Map({Key key, this.getCoords}) : super(key: key);
-
   @override
   _MapState createState() => _MapState();
 }
 
 class _MapState extends State<Map> {
   GoogleMapController mapController;
+  String _mapStyle;
+
+  @override
+  void initState() {
+    super.initState();
+    rootBundle.loadString('assets/map_style_dark.json').then((result) {
+      _mapStyle = result;
+    });
+    Provider.of<LocationModel>(context, listen: false).addListener(_updateMap);
+  }
+
+  void _updateMap() {
+    LatLng newLoc = Provider.of<LocationModel>(context, listen: false).location;
+
+    if (newLoc != null)
+      mapController.animateCamera(CameraUpdate.newLatLng(newLoc));
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    mapController.setMapStyle(_mapStyle);
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.getCoords().latitude != null
-        ? GoogleMap(
-            myLocationEnabled: true,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: widget.getCoords(),
-              zoom: 11.0,
-            ),
-          )
-        : Container();
+    return Consumer<LocationModel>(builder: (context, location, child) {
+      return GoogleMap(
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: location.location,
+          zoom: 15.0,
+        ),
+      );
+    });
+    // return widget.getCoords().latitude != null
+    //     ? Text("${widget.getCoords().latitude} ${widget.getCoords().longitude}")
+    //     /*GoogleMap(
+    //         myLocationEnabled: true,
+    //         onMapCreated: _onMapCreated,
+    //         initialCameraPosition: CameraPosition(
+    //           target: widget.getCoords(),
+    //           zoom: 11.0,
+    //         ),
+    //       )*/
+    //     : Container();
   }
 }
