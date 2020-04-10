@@ -98,7 +98,6 @@ class _MapState extends State<Map> {
     rootBundle.loadString('assets/map_style_dark.json').then((result) {
       _mapStyle = result;
     });
-    Provider.of<LocationModel>(context, listen: false).addListener(_updateMap);
   }
 
   void _updateMap() {
@@ -111,6 +110,7 @@ class _MapState extends State<Map> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     mapController.setMapStyle(_mapStyle);
+    Provider.of<LocationModel>(context, listen: false).addListener(_updateMap);
   }
 
   @override
