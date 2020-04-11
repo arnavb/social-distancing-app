@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 
-
 class LocationModel extends ChangeNotifier {
   double _latitude;
   double _longitude;
@@ -121,6 +120,8 @@ class _MapState extends State<Map> {
     return Consumer<LocationModel>(builder: (context, location, child) {
       return location.location != null
           ? SlidingUpPanel(
+              parallaxEnabled: true,
+              parallaxOffset: 0.5,
               body: GoogleMap(
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
@@ -130,18 +131,67 @@ class _MapState extends State<Map> {
                   zoom: 15.0,
                 ),
               ),
-              panel: Center(
-                child: Text(
-                  "This is the Widget behind the sliding panel",
-                ),
-              ),
+              panelBuilder: (sc) => SlidingWidget(sc),
               backdropEnabled: true,
-              color: Colors.black,
+              color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.0),
                   topRight: Radius.circular(24.0)),
             )
           : Center(child: CircularProgressIndicator());
     });
+  }
+}
+
+class SlidingWidget extends StatelessWidget {
+  ScrollController _controller;
+  SlidingWidget(this._controller);
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView(
+          controller: this._controller,
+          children: <Widget>[
+            SizedBox(
+              height: 12.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 30,
+                  height: 5,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 18.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Details",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 24.0,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 18.0,
+            ),
+            SizedBox(
+              height: 24,
+            ),
+          ],
+        ));
   }
 }
