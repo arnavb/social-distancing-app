@@ -11,9 +11,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="frontend_mobile"
         android:icon="@mipmap/ic_launcher">
-
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value=""/> <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ADD API KEY -->
+            android:value= "$(GMAPS_PLACES_API_KEY)" /> <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ADD API KEY -->
 
         <activity
             android:name=".MainActivity"
