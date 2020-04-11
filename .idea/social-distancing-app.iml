@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/flutter_plugin_android_lifecycle/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/flutter_plugin_android_lifecycle/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/flutter_plugin_android_lifecycle/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/flutter_plugin_android_lifecycle/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/geolocation/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/geolocation/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/geolocation/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/geolocation/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/google_maps_flutter/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/google_maps_flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/google_maps_flutter/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/google_maps_flutter/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/streams_channel/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/streams_channel/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/streams_channel/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend_mobile/ios/.symlinks/plugins/streams_channel/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
