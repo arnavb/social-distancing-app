@@ -12,7 +12,7 @@
         android:label="frontend_mobile"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value= "$(GMAPS_PLACES_API_KEY)" /> <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ADD API KEY -->
+            android:value="AIzaSyB79vxwuLoDEGCZuL2o_ufb1KjRfxF0w3s"/> <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ADD API KEY -->
 
         <activity
             android:name=".MainActivity"
