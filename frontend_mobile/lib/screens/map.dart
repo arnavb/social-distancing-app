@@ -35,9 +35,9 @@ class _MapState extends State<Map> {
     });
 
     _locationSubscription = Geolocation.locationUpdates(
-        accuracy: LocationAccuracy.best,
-        displacementFilter: 0.0,
-        inBackground: true)
+            accuracy: LocationAccuracy.best,
+            displacementFilter: 0.0,
+            inBackground: true)
         .listen((result) {
       Provider.of<LocationModel>(context, listen: false).locationList = [
         result.location.latitude,
@@ -68,47 +68,47 @@ class _MapState extends State<Map> {
       body: Consumer<LocationModel>(builder: (context, location, child) {
         return location.location != null
             ? Stack(
-          children: <Widget>[
-            SlidingUpPanel(
-              parallaxEnabled: true,
-              parallaxOffset: 0.5,
-              body: GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: location.location,
-                  zoom: 15.0,
-                ),
-              ),
-              panelBuilder: (sc) => SlidingWidget(sc),
-              backdropEnabled: true,
-              color: Theme.of(context).canvasColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
-            ),
-            Positioned(
-              top: 60,
-              left: MediaQuery.of(context).size.width * 0.05,
-              child: SearchMapPlaceWidget(
-                apiKey: "",
-                location: LatLng(0, 0),
-                radius: 3000,
-                onSelected: (place) async {
-                  final geolocation = await place.geolocation;
-                  final controller = await mapController.future;
+                children: <Widget>[
+                  SlidingUpPanel(
+                    parallaxEnabled: true,
+                    parallaxOffset: 0.5,
+                    body: GoogleMap(
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: location.location,
+                        zoom: 15.0,
+                      ),
+                    ),
+                    panelBuilder: (sc) => SlidingWidget(sc),
+                    backdropEnabled: true,
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.0),
+                        topRight: Radius.circular(24.0)),
+                  ),
+                  Positioned(
+                    top: 60,
+                    left: MediaQuery.of(context).size.width * 0.05,
+                    child: SearchMapPlaceWidget(
+                      apiKey: "",
+                      location: LatLng(0, 0),
+                      radius: 3000,
+                      onSelected: (place) async {
+                        final geolocation = await place.geolocation;
+                        final controller = await mapController.future;
 
-                  controller.animateCamera(
-                      CameraUpdate.newLatLng(geolocation.coordinates));
-                  controller.animateCamera(
-                      CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
-                  _selectedLocation = geolocation.coordinates;
-                },
-              ),
-            ),
-          ],
-        )
+                        controller.animateCamera(
+                            CameraUpdate.newLatLng(geolocation.coordinates));
+                        controller.animateCamera(CameraUpdate.newLatLngBounds(
+                            geolocation.bounds, 0));
+                        _selectedLocation = geolocation.coordinates;
+                      },
+                    ),
+                  ),
+                ],
+              )
             : Center(child: CircularProgressIndicator());
       }),
     );

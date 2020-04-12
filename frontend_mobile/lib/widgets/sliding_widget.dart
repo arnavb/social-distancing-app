@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
 import 'package:frontend_mobile/constants.dart';
 
-
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
   SlidingWidget(this._controller);

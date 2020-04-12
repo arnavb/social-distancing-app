@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:frontend_mobile/models/location_model.dart';
 import 'package:frontend_mobile/screens/map.dart';
 
-
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => LocationModel(),
@@ -21,4 +20,3 @@ class App extends StatelessWidget {
         home: Map());
   }
 }
-
