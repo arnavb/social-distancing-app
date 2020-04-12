@@ -1,34 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:frontend_mobile/slider_content.dart';
+import 'package:frontend_mobile/widgets/sliding_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:search_map_place/search_map_place.dart' hide Geolocation;
+import 'package:frontend_mobile/models/location_model.dart';
 
-class LocationModel extends ChangeNotifier {
-  double _latitude;
-  double _longitude;
-
-  double get latitude => _latitude;
-  double get longitude => _longitude;
-
-  LatLng get location => LatLng(_latitude, _longitude);
-
-  set locationObj(LatLng newLoc) {
-    _latitude = newLoc.latitude;
-    _longitude = newLoc.longitude;
-    notifyListeners();
-  }
-
-  set locationList(List<double> newLoc) {
-    _latitude = newLoc[0];
-    _longitude = newLoc[1];
-    notifyListeners();
-  }
-}
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
+import 'package:frontend_mobile/constants.dart';
 
-const String SOCIAL_DISTANCING_API_LOCATION = "https://sd-1000.appspot.com/";
 
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
