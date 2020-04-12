@@ -8,9 +8,9 @@ void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => LocationModel(),
       )
-    ], child: AppContainer()));
+    ], child: App()));
 
-class AppContainer extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
