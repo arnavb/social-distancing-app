@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
+import 'package:http/http.dart' as http;
+
+const String SOCIAL_DISTANCING_API_LOCATION = "https://sd-1000.appspot.com/";
 
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
@@ -44,6 +48,22 @@ class SlidingWidget extends StatelessWidget {
             ),
             SizedBox(
               height: 18.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                FutureBuilder(
+                    future: http.get(SOCIAL_DISTANCING_API_LOCATION),
+                    builder: (context, snapshot) {
+                      try {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data.toString());
+                        }
+                      } finally {
+                        return CircularProgressIndicator();
+                      }
+                    })
+              ],
             ),
             SizedBox(
               height: 24,

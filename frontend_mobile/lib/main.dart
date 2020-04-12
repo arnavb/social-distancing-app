@@ -119,7 +119,7 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationModel>(builder: (context, location, child) {
-      return location.location != null
+      return location.latitude != null
           ? SlidingUpPanel(
               parallaxEnabled: true,
               parallaxOffset: 0.5,
