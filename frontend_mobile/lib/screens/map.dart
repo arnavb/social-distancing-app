@@ -92,7 +92,7 @@ class _MapState extends State<Map> {
                     top: 60,
                     left: MediaQuery.of(context).size.width * 0.05,
                     child: SearchMapPlaceWidget(
-                      apiKey: "",
+                      apiKey: "AIzaSyDVZRJ6V5ddNzYzodnI2MrIhn56PhwhNDs",
                       location: LatLng(0, 0),
                       radius: 3000,
                       onSelected: (place) async {
