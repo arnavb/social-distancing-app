@@ -6,7 +6,7 @@ import 'package:geolocation/geolocation.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
+import 'package:search_map_place/search_map_place.dart' hide Geolocation;
 
 class LocationModel extends ChangeNotifier {
   double _latitude;
@@ -81,8 +81,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Social Distancing")), body: Map());
+    return Scaffold(body: Map());
   }
 }
 
@@ -92,8 +91,9 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
-  GoogleMapController mapController;
+  Completer<GoogleMapController> mapController = Completer();
   String _mapStyle;
+  LatLng _selectedLocation;
 
   @override
   void initState() {
@@ -103,16 +103,19 @@ class _MapState extends State<Map> {
     });
   }
 
-  void _updateMap() {
+  void _updateMap() async {
     LatLng newLoc = Provider.of<LocationModel>(context, listen: false).location;
 
-    if (newLoc != null)
-      mapController.animateCamera(CameraUpdate.newLatLng(newLoc));
+    if (newLoc != null && _selectedLocation == null) {
+      final controller = await mapController.future;
+      controller.animateCamera(CameraUpdate.newLatLng(newLoc));
+    }
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    mapController.setMapStyle(_mapStyle);
+  void _onMapCreated(GoogleMapController googleMapController) async {
+    mapController.complete(googleMapController);
+    final controller = await mapController.future;
+    controller.setMapStyle(_mapStyle);
     Provider.of<LocationModel>(context, listen: false).addListener(_updateMap);
   }
 
@@ -120,24 +123,47 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     return Consumer<LocationModel>(builder: (context, location, child) {
       return location.location != null
-          ? SlidingUpPanel(
-              parallaxEnabled: true,
-              parallaxOffset: 0.5,
-              body: GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: location.location,
-                  zoom: 15.0,
+          ? Stack(
+              children: <Widget>[
+                SlidingUpPanel(
+                  parallaxEnabled: true,
+                  parallaxOffset: 0.5,
+                  body: GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: location.location,
+                      zoom: 15.0,
+                    ),
+                  ),
+                  panelBuilder: (sc) => SlidingWidget(sc),
+                  backdropEnabled: true,
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)),
                 ),
-              ),
-              panelBuilder: (sc) => SlidingWidget(sc),
-              backdropEnabled: true,
-              color: Theme.of(context).canvasColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
+                Positioned(
+                  top: 60,
+                  left: MediaQuery.of(context).size.width * 0.05,
+                  child: SearchMapPlaceWidget(
+                    apiKey: "",
+                    location: LatLng(0, 0),
+                    radius: 3000,
+                    onSelected: (place) async {
+                      final geolocation = await place.geolocation;
+                      final controller = await mapController.future;
+
+                      controller.animateCamera(
+                          CameraUpdate.newLatLng(geolocation.coordinates));
+                      controller.animateCamera(
+                          CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+                      _selectedLocation = geolocation.coordinates;
+                    },
+                  ),
+                ),
+              ],
             )
           : Center(child: CircularProgressIndicator());
     });
