@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
-import 'package:frontend_mobile/constants.dart';
+import 'package:frontend_mobile/.env.dart';
 
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
@@ -52,7 +51,7 @@ class SlidingWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 FutureBuilder(
-                    future: http.get(SOCIAL_DISTANCING_API_LOCATION),
+                    future: http.get(environment["apiUrl"]),
                     builder: (context, snapshot) {
                       try {
                         if (snapshot.hasData) {

@@ -8,6 +8,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:search_map_place/search_map_place.dart' hide Geolocation;
 import 'package:frontend_mobile/models/location_model.dart';
 import 'package:geolocation/geolocation.dart';
+import 'package:frontend_mobile/.env.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -92,7 +93,7 @@ class _MapState extends State<Map> {
                     top: 60,
                     left: MediaQuery.of(context).size.width * 0.05,
                     child: SearchMapPlaceWidget(
-                      apiKey: "",
+                      apiKey: environment["googleApiKey"],
                       location: LatLng(0, 0),
                       radius: 3000,
                       onSelected: (place) async {
