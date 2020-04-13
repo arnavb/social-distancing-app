@@ -55,9 +55,9 @@ class SlidingWidget extends StatelessWidget {
                     builder: (context, snapshot) {
                       try {
                         if (snapshot.hasData) {
-                          return Text(snapshot.data.toString());
+                          return Text(snapshot.data.body);
                         }
-                      } finally {
+                      } catch (e) {
                         return CircularProgressIndicator();
                       }
                     })
