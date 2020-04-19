@@ -82,7 +82,7 @@ class _MapState extends State<Map> {
                         zoom: 15.0,
                       ),
                     ),
-                    panelBuilder: (sc) => SlidingWidget(sc),
+                    panelBuilder: (sc) => SlidingWidget(sc, location),
                     backdropEnabled: true,
                     color: Theme.of(context).canvasColor,
                     borderRadius: BorderRadius.only(

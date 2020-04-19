@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_mobile/models/location_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend_mobile/.env.dart';
 
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
-  SlidingWidget(this._controller);
+  LocationModel _location;
+  SlidingWidget(this._controller, this._location);
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +51,32 @@ class SlidingWidget extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                FutureBuilder(
-                    future: http.get(environment["apiUrl"]),
-                    builder: (context, snapshot) {
-                      try {
-                        if (snapshot.hasData) {
-                          return Text(snapshot.data.toString());
-                        }
-                      } finally {
-                        return CircularProgressIndicator();
-                      }
-                    })
-              ],
+              children: <Widget>[Nearby()],
             ),
             SizedBox(
               height: 24,
             ),
           ],
         ));
+  }
+}
+
+class Nearby extends StatefulWidget {
+  @override
+  _NearbyState createState() => _NearbyState();
+}
+
+class _NearbyState extends State<Nearby> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: http.get(environment["apiUrl"]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Text(snapshot.data.body);
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 }

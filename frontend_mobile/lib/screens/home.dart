@@ -1,30 +1,67 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(buildScreen());
+void main() => runApp(BuildScreen());
 
-class buildScreen extends StatelessWidget {
+class BuildScreen extends StatefulWidget {
+  @override
+  _BuildScreenState createState() => new _BuildScreenState();
+}
+
+class _BuildScreenState extends State<BuildScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Stack(children: <Widget>[
-        Container(
-          color: Colors.white,
-        ),
-        Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        'https://vignette.wikia.nocookie.net/memepediadankmemes/images/b/be/Spaghet.png/revision/latest/top-crop/width/360/height/450?cb=20180611153100'),
-                    fit: BoxFit.cover))),
-        Container(
-          alignment: Alignment.topCenter,
-          width: 500,
-          height: 500,
-          child: Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/SARS-CoV-2_without_background.png/597px-SARS-CoV-2_without_background.png'),
-        )
-      ]),
+      home: Scaffold(
+        body: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Container(
+                color: Colors.white,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/GrayScaleSpaceBackround.jpg'),
+                          fit: BoxFit.cover)
+                  )
+              ),
+              Positioned(
+                  right: 0,
+                  left: 3,
+                  top: 190,
+                  child: Container(
+                    width: 350,
+                    height: 350,
+                    child: Image.asset('assets/images/CaronaPicture.png'),
+                  )
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
+                            Text(
+                              "Stay Safe \n and \n Social Distance"
+                            )
+                          ],
+                        ),
+                        )
+                      )
+                      ],
+                    ),
+                  ]),
+              ),
     );
   }
 }
