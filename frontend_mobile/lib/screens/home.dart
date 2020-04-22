@@ -1,56 +1,60 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(BuildScreen());
+void main() => runApp(App());
 
-class BuildScreen extends StatefulWidget {
-  @override
-  _BuildScreenState createState() => new _BuildScreenState();
-}
-
-class _BuildScreenState extends State<BuildScreen> {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-            fit: StackFit.expand,
+      title: 'Title',
+      home: BuildScreen(),
+    );
+  }
+}
+
+class BuildScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double _circlePlace = (height/2) + 190;
+      return Scaffold(
+        body: Stack(fit: StackFit.expand, children: <Widget>[
+          Container(
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/GrayScaleSpaceBackround.jpg'),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.4), BlendMode.dstATop)))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                color: Colors.white,
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/GrayScaleSpaceBackround.jpg'),
-                          fit: BoxFit.cover)
-                  )
-              ),
-              Positioned(
-                  right: 0,
-                  left: 3,
-                  top: 190,
-                  child: Container(
-                    width: 350,
-                    height: 350,
-                    child: Image.asset('assets/images/CaronaPicture.png'),
-                  )
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                    ),
-                  ],
-                ),
+                width: 350,
+                height: 350,
+                child: Image.asset('assets/images/CaronaPicture.png'),
               )
+            ],
+          ),
+          Positioned(
+            top: _circlePlace,
+            left: 0,
+            right: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Text(
+                  "\nStay safe", style: TextStyle(color: Colors.white, fontSize: 20),
+                )
+              ],
+            ),
+          )
         ]),
-      ),
-    );
+      );
   }
 }
