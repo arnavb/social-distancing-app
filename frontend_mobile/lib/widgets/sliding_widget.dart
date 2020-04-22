@@ -51,7 +51,7 @@ class SlidingWidget extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[Nearby()],
+              children: <Widget>[SomeTable()],
             ),
             SizedBox(
               height: 24,
@@ -81,5 +81,22 @@ class _NearbyState extends State<Nearby> {
             return _prev;
           }
         });
+  }
+}
+
+class SomeTable extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Table(
+      border: TableBorder.all(),
+      columnWidths: {
+        0: FractionColumnWidth(40.0),
+        1: FractionColumnWidth(40.0)
+      },
+      children: <TableRow>[
+        TableRow(children: <Widget>[Text("One person's"), Text("Joe")]),
+        TableRow(children: <Widget>[Text("Another person's"), Text("Mama")])
+      ],
+    );
   }
 }
