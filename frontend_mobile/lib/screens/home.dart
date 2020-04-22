@@ -1,13 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(BuildScreen());
+void main() => runApp(App());
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Title',
+      home: BuildScreen(),
+    );
+  }
+}
 
 class BuildScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double _circlePlace = (height/2) + 190;
+      return Scaffold(
         body: Stack(fit: StackFit.expand, children: <Widget>[
           Container(
               decoration: BoxDecoration(
@@ -29,7 +41,7 @@ class BuildScreen extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: 100,
+            top: _circlePlace,
             left: 0,
             right: 0,
             child: Column(
@@ -37,14 +49,12 @@ class BuildScreen extends StatelessWidget {
               children: <Widget>[
                 CircularProgressIndicator(),
                 Text(
-                  "\nStay safe",
-                  style: TextStyle(color: Colors.white, fontSize: 30),
+                  "\nStay safe", style: TextStyle(color: Colors.white, fontSize: 20),
                 )
               ],
             ),
           )
         ]),
-      ),
-    );
+      );
   }
 }
