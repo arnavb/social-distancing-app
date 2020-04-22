@@ -67,15 +67,18 @@ class Nearby extends StatefulWidget {
 }
 
 class _NearbyState extends State<Nearby> {
+  Widget _prev = CircularProgressIndicator();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: http.get(environment["apiUrl"]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Text(snapshot.data.body);
+            _prev = Text(snapshot.data.body);
+            return _prev;
           } else {
-            return CircularProgressIndicator();
+            return _prev;
           }
         });
   }
