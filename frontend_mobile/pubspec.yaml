@@ -31,9 +31,13 @@ dependencies:
   search_map_place: ^0.3.0
 
 dev_dependencies:
+  flutter_native_splash: ^0.1.9
   flutter_test:
     sdk: flutter
 
+flutter_native_splash:
+  image: assets/images/CaronaPicture.png
+  color: "303030"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
