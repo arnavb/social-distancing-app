@@ -49,7 +49,7 @@ class SlidingWidget extends StatelessWidget {
             SizedBox(
               height: 18.0,
             ),
-            SomeTable(),
+            NearbyTable(),
             SizedBox(
               height: 24,
             ),
@@ -81,21 +81,46 @@ class _NearbyState extends State<Nearby> {
   }
 }
 
-class SomeTable extends StatelessWidget {
+class NearbyTable extends StatefulWidget {
+  @override
+  _NearbyTableState createState() => _NearbyTableState();
+}
+
+class _NearbyTableState extends State<NearbyTable> {
+  Widget _prev = Center(
+    child: Column(
+      children: <Widget>[
+        CircularProgressIndicator(),
+        Text("Sorry, this takes time to load... Our backend is jank")
+      ],
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            child: Table(
-      border: TableBorder.symmetric(),
-      columnWidths: {
-        0: FractionColumnWidth(0.45),
-        1: FractionColumnWidth(0.45)
-      },
-      children: <TableRow>[
-        TableRow(children: <Widget>[Text("One person's"), Text("Joe")]),
-        TableRow(children: <Widget>[Text("Another person's"), Text("Mama")])
-      ],
-    )));
+    return FutureBuilder(
+        future: http.get(environment["apiUrl"]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            _prev = Center(
+                child: Container(
+                    child: Table(
+              border: TableBorder.symmetric(),
+              columnWidths: {
+                0: FractionColumnWidth(0.45),
+                1: FractionColumnWidth(0.45)
+              },
+              children: <TableRow>[
+                TableRow(
+                    children: <Widget>[Text(snapshot.data.body), Text("Joe")]),
+                TableRow(
+                    children: <Widget>[Text("Another person's"), Text("Mama")])
+              ],
+            )));
+            return _prev;
+          } else {
+            return _prev;
+          }
+        });
   }
 }
