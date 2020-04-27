@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_mobile/models/location_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend_mobile/.env.dart';
+import 'package:provider/provider.dart';
 
 class SlidingWidget extends StatelessWidget {
   ScrollController _controller;
@@ -96,10 +98,20 @@ class _NearbyTableState extends State<NearbyTable> {
     ),
   );
 
+  getNearbyPopularity() async {
+    LatLng loc = Provider.of<LocationModel>(context, listen: false).location;
+    String url =
+        "${environment["apiUrl"]}area-popularity?lat=${loc.latitude}&lng=${loc.longitude}";
+    //The reason this isn't working is because the futurebuilder runs every rerender(which happens when the map center is updated)
+    //The API does not return within the rerender. The jank solution of remembering the previous widget in the state doesn't help this
+    //Must find less jank solution
+    return await http.get(url);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: http.get(environment["apiUrl"]),
+        future: getNearbyPopularity(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             _prev = Center(
